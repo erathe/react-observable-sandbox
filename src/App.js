@@ -7,6 +7,9 @@ import Counter from './components/Counter';
 import PureComponent from './components/PureComponent';
 import AjaxStream from './components/AjaxStream';
 import SimpleForm from './components/SimpleForm';
+import ButtonCounter from './components/ButtonCounter';
+import CounterWithPropsStream from './components/counterWithPropsStream';
+import todoList from './components/todoList';
 
 const Home = () => {
   return (
@@ -40,6 +43,15 @@ const App = () => (
         <li>
           <Link to="/simpleform">Simple form input</Link>
         </li>
+        <li>
+          <Link to="/buttoncounter">Counter with buttons</Link>
+        </li>
+        <li>
+          <Link to="/counterwithpropsstream">Counter prop stream</Link>
+        </li>
+        <li>
+          <Link to="/todolist">Todo list</Link>
+        </li>
       </ul>
 
       <Route exact path="/" component={Home} />
@@ -48,6 +60,12 @@ const App = () => (
       <Route path="/purecomponent" component={PureComponent} />
       <Route path="/ajaxstream" component={AjaxStream} />
       <Route path="/simpleform" component={SimpleForm} />
+      <Route path="/buttoncounter" component={ButtonCounter} />
+      <Route
+        path="/counterwithpropsstream"
+        component={CounterWithPropsStream}
+      />
+      <Route path="/todolist" component={todoList} />
     </div>
   </Router>
 );
