@@ -10,6 +10,7 @@ import SimpleForm from './components/SimpleForm';
 import ButtonCounter from './components/ButtonCounter';
 import CounterWithPropsStream from './components/counterWithPropsStream';
 import todoList from './components/todoList';
+import todolisttwo from './components/todolisttwo';
 
 const Home = () => {
   return (
@@ -52,6 +53,9 @@ const App = () => (
         <li>
           <Link to="/todolist">Todo list</Link>
         </li>
+        <li>
+          <Link to="/todolisttwo">Todo list 2 </Link>
+        </li>
       </ul>
 
       <Route exact path="/" component={Home} />
@@ -66,6 +70,7 @@ const App = () => (
         component={CounterWithPropsStream}
       />
       <Route path="/todolist" component={todoList} />
+      <Route path="/todolisttwo" component={todolisttwo} />
     </div>
   </Router>
 );
