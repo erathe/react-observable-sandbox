@@ -1,10 +1,6 @@
 import React from 'react';
-import { map, startWith, scan, switchMap, tap, reduce } from 'rxjs/operators';
-import { combineLatest } from 'rxjs/observable/combineLatest';
-import { of } from 'rxjs/observable/of';
-import { merge } from 'rxjs/observable/merge';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import {
-  componentFromStream,
   setObservableConfig,
   createEventHandler,
   mapPropsStream,

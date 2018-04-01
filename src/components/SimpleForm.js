@@ -1,6 +1,5 @@
 import React from 'react';
 import { map, startWith, delay } from 'rxjs/operators';
-import { interval } from 'rxjs/observable/interval';
 import {
   componentFromStream,
   setObservableConfig,

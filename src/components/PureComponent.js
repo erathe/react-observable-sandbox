@@ -1,5 +1,5 @@
 import React from 'react';
-import { map, startWith, scan, switchMap } from 'rxjs/operators';
+import { map, scan, switchMap } from 'rxjs/operators';
 import { interval } from 'rxjs/observable/interval';
 import { from } from 'rxjs/observable/from';
 import { zip } from 'rxjs/observable/zip';

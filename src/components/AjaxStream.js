@@ -1,5 +1,5 @@
 import React from 'react';
-import { map, switchMap, tap, pluck, startWith } from 'rxjs/operators';
+import { map, switchMap, pluck, startWith } from 'rxjs/operators';
 import { ajax } from 'rxjs/observable/dom/ajax';
 import { componentFromStream, setObservableConfig } from 'recompose';
 import config from 'recompose/rxjsObservableConfig';

@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-  map,
   startWith,
-  switchMap,
   mapTo,
   catchError,
   scan,

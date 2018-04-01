@@ -4,22 +4,22 @@ import {
   startWith,
   switchMap,
   pluck,
-  catchError
+  catchError,
+  withLatestFrom,
 } from 'rxjs/operators';
-import { combineLatest } from 'rxjs/observable/combineLatest';
 import { of } from 'rxjs/observable/of';
 import { ajax } from 'rxjs/observable/dom/ajax';
 import {
   setObservableConfig,
   createEventHandler,
   mapPropsStream,
-  withState,
   compose,
   flattenProp
 } from 'recompose';
 import config from 'recompose/rxjsObservableConfig';
 
 setObservableConfig(config);
+const REQUEST_PERSON_URL = id => `https://swapi.co/api/people/${id}/`;
 
 const input = mapPropsStream(props$ => {
   const { stream: onInput$, handler: onInput } = createEventHandler();
@@ -34,24 +34,26 @@ const input = mapPropsStream(props$ => {
 const save = mapPropsStream(props$ => {
   const { stream: onSave$, handler: onSave } = createEventHandler();
 
-  const postTodo$ = props$.pipe(
-    switchMap(props =>
-      onSave$.pipe(
-        switchMap(
-          _ =>
-            ajax(`https://swapi.co/api/people/${props.inputValue}/`).pipe(
-              pluck('response'),
-              catchError(err => of({ name: 'Not Found' })),
-              startWith({loading: true})
-            ),
-          (props, person) => ({ person, loading: person.loading })
-        ),
-        startWith({ person: {} })
-      )
-    )
+  const getPerson$ = id =>
+    ajax(REQUEST_PERSON_URL(id)).pipe(
+      pluck('response'),
+      catchError(err => of({ name: 'Not Found' })),
+      startWith({ loading: true })
+    );
+
+  const save$ = onSave$.pipe(
+    withLatestFrom(props$),
+    switchMap(
+      ([_, props]) => getPerson$(props.inputValue),
+      (props, person) => ({
+        person,
+        loading: person.loading
+      })
+    ),
+    startWith({ person: {} })
   );
 
-  return props$.combineLatest(postTodo$, (props, postTodo) => ({
+  return props$.combineLatest(save$, (props, postTodo) => ({
     ...props,
     postTodo,
     onSave
@@ -59,7 +61,6 @@ const save = mapPropsStream(props$ => {
 });
 
 const FormInput = props => {
-    console.log(props)
   return (
     <div>
       {props.loading ? <h1>Loading...</h1> : <h1>not Loading</h1>}
@@ -67,16 +68,13 @@ const FormInput = props => {
       <button onClick={props.onSave}>Save</button>
       <h2>{props.inputValue}</h2>
       <h2>{props.person.name}</h2>
+      <h3>{props.testProps}</h3>
     </div>
   );
 };
 
-const TodoListStream = compose(
-  input,
-  save,
-  flattenProp('postTodo')
-)(FormInput);
+const TodoListStream = compose(input, save, flattenProp('postTodo'))(FormInput);
 
-const todoList = () => <TodoListStream />;
+const todoList = () => <TodoListStream testProps={'coming through?'}/>;
 
 export default todoList;
